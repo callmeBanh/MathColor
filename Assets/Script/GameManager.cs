@@ -6,6 +6,9 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    
+    [HideInInspector] // Ẩn trong Inspector vì chúng ta quản lý bằng code
+    public bool isQuizOpen = false;
 
     [Header("UI Khung Chơi")]
     public GameObject quizPanel;
@@ -24,7 +27,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        isQuizOpen = false;
         quizPanel.SetActive(false);
+        // Tự động đếm tổng số mảnh tranh cần tô
         totalParts = FindObjectsOfType<ColoringRegion>().Length;
     }
 
@@ -32,6 +37,8 @@ public class GameManager : MonoBehaviour
     {
         currentRegion = region;
         txtQuestion.text = region.mathQuestion;
+        
+        isQuizOpen = true; // Khóa tương tác với các mảnh tranh khác
         quizPanel.SetActive(true);
         SetupButtons(region.correctAnswer);
     }
@@ -39,26 +46,18 @@ public class GameManager : MonoBehaviour
     void SetupButtons(int correctAns)
     {
         int luckyBtn = Random.Range(0, btnAnswers.Length);
+        
         for (int i = 0; i < btnAnswers.Length; i++)
         {
-            // Tạo đáp án gây nhiễu đơn giản
             int displayValue = (i == luckyBtn) ? correctAns : correctAns + Random.Range(-3, 4);
             if (displayValue == correctAns && i != luckyBtn) displayValue += 1;
 
-            // Hỗ trợ cả UI.Text và TextMeshProUGUI
-            TextMeshProUGUI tmpText = btnAnswers[i].GetComponentInChildren<TextMeshProUGUI>();
-            if (tmpText != null)
-            {
-                tmpText.text = displayValue.ToString();
-            }
-            else
-            {
-                Text oldText = btnAnswers[i].GetComponentInChildren<Text>();
-                if (oldText != null)
-                    oldText.text = displayValue.ToString();
-                else
-                    Debug.LogError("Button " + i + " không có Text hoặc TextMeshProUGUI component!");
-            }
+            // Tìm component Text (cả TMP hoặc Legacy)
+            var tmpText = btnAnswers[i].GetComponentInChildren<TextMeshProUGUI>();
+            var oldText = btnAnswers[i].GetComponentInChildren<Text>();
+
+            if (tmpText != null) tmpText.text = displayValue.ToString();
+            else if (oldText != null) oldText.text = displayValue.ToString();
             
             int finalValue = displayValue;
             btnAnswers[i].onClick.RemoveAllListeners();
@@ -68,16 +67,28 @@ public class GameManager : MonoBehaviour
 
     void OnClickAnswer(int value)
     {
+        Debug.Log($"Clicked value: {value}, correct: {currentRegion.correctAnswer}");
+
+        // Luôn đóng panel và unlock (tránh kẹt ở true)
+        quizPanel.SetActive(false);
+        isQuizOpen = false;
+
+        if (currentRegion == null)
+        {
+            Debug.LogWarning("currentRegion null khi click");
+            return;
+        }
+
         if (value == currentRegion.correctAnswer)
         {
             currentRegion.ApplyColor();
-            quizPanel.SetActive(false);
             completedParts++;
             CheckWin();
         }
         else
         {
-            // Khi chọn sai, chuyển ngay sang Scene Thua
+            // Nếu chọn sai, reset biến và chuyển sang Scene Thua
+            isQuizOpen = false;
             SceneManager.LoadScene(loseSceneName);
         }
     }
@@ -86,7 +97,6 @@ public class GameManager : MonoBehaviour
     {
         if (completedParts >= totalParts)
         {
-            // Khi hoàn thành tất cả, chuyển sang Scene Thắng
             SceneManager.LoadScene(winSceneName);
         }
     }

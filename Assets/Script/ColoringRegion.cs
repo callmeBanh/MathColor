@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.EventSystems; // Bắt buộc phải có để kiểm tra UI
 
 public class ColoringRegion : MonoBehaviour
 {
-    public string mathQuestion = "2 + 3 = ?";
-    public int correctAnswer = 5;
-    public Color colorWhenDone = Color.green;
+    public string mathQuestion = "1 + 1 = ?";
+    public int correctAnswer = 2;
+    public Color colorWhenDone = Color.white;
 
     private SpriteRenderer sRenderer;
     private bool isSolved = false;
@@ -16,8 +17,9 @@ public class ColoringRegion : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log("Bạn vừa click vào: " + gameObject.name);
-        // Chỉ mở câu hỏi nếu chưa giải xong
+        if (GameManager.Instance.isQuizOpen) return;
+
+        // Nếu mảnh này chưa giải, thì mới mở câu đố
         if (!isSolved)
         {
             GameManager.Instance.OpenQuiz(this);
@@ -28,7 +30,5 @@ public class ColoringRegion : MonoBehaviour
     {
         isSolved = true;
         sRenderer.color = colorWhenDone;
-        // Có thể thêm hiệu ứng Particle (pháo hoa nhỏ) tại vị trí mảnh ghép ở đây
     }
-
 }
