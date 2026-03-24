@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
 
     void CheckWin()
     {
+        Debug.Log($"Completed: {completedParts}/{totalParts}");
         if (completedParts >= totalParts)
         {
             SceneManager.LoadScene(winSceneName);
