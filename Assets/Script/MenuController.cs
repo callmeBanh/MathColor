@@ -3,30 +3,45 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
+
     public void StartGame()
     {
+        // Bắt đầu từ con Mèo
         PlayerPrefs.SetInt("CurrentLevel", 0);
-        loadingController.LoadScene("GamePlay");
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("Level_Cat");
     }
-    
+
     public void BackToMainMenu()
     {
         Time.timeScale = 1;
-        
-        loadingController.LoadScene("StartGame");
+        SceneManager.LoadScene("StartGame");
     }
-   
+
     public void NextLevel()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("GamePlay");
+
+        // Lấy tên màn chơi vừa thắng từ PlayerPrefs (được lưu bởi GameManager)
+        string lastLevel = PlayerPrefs.GetString("LastCompletedLevel", "Level_Cat");
+
+        if (lastLevel == "Level_Cat") // Vừa thắng Mèo
+        {
+            SceneManager.LoadScene("Level_Giraffe");
+        }
+        else
+        {
+            SceneManager.LoadScene("StartGame");
+        }
     }
 
     public void TryAgain()
     {
         Time.timeScale = 1;
-        PlayerPrefs.SetInt("CurrentLevel", 0); // reset level về 0 để chơi lại từ đầu
-        loadingController.LoadScene("GamePlay");
+        // Chơi lại đúng cái màn vừa bị thua
+        string currentLevel = SceneManager.GetActiveScene().name;
+        
+        SceneManager.LoadScene(PlayerPrefs.GetString("CurrentPlayingLevel", "Level_Cat"));
     }
 
     public void QuitGame()

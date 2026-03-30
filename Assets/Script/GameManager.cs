@@ -38,9 +38,27 @@ public class GameManager : MonoBehaviour
         currentRegion = region;
         txtQuestion.text = region.mathQuestion;
         
-        isQuizOpen = true; // Khóa tương tác với các mảnh tranh khác
-        quizPanel.SetActive(true);
+        // Thay vì bật trực tiếp, hãy gọi Coroutine
+        StartCoroutine(EnablePanelWithDelay());
+        
         SetupButtons(region.correctAnswer);
+    }
+
+    System.Collections.IEnumerator EnablePanelWithDelay()
+    {
+        quizPanel.SetActive(true);
+        
+        // Vô hiệu hóa tương tác của các nút trong 0.1 giây
+        CanvasGroup cg = quizPanel.GetComponent<CanvasGroup>();
+        if (cg == null) cg = quizPanel.AddComponent<CanvasGroup>();
+        
+        cg.interactable = false;
+        isQuizOpen = true;
+
+        // Chờ 0.1 giây để kết thúc frame click hiện tại
+        yield return new WaitForSeconds(0.1f);
+        
+        cg.interactable = true;
     }
 
     void SetupButtons(int correctAns)

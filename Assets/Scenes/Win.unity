@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 224636258}
   - component: {fileID: 224636257}
   m_Layer: 0
-  m_Name: ButtonControoler
+  m_Name: ButtonContronler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

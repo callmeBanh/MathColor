@@ -12,8 +12,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Loading.unity
     guid: 48206061a475fd54b9cfbbc425ad0126
   - enabled: 1
-    path: Assets/Scenes/GamePlay.unity
+    path: Assets/Scenes/Level_Cat.unity
     guid: a2ba32d2a4346fc4d92139ce497e6f9e
+  - enabled: 1
+    path: Assets/Scenes/Level_Giraffe.unity
+    guid: af3e0892429a2b04495af7f472dc86be
   - enabled: 1
     path: Assets/Scenes/Win.unity
     guid: 1aebd6aaef3d9d14cb7110c752c8ff18
