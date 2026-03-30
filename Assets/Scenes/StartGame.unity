@@ -949,7 +949,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6376882208575389763, guid: 50edac169e0fc2f498e77f3b185f18e8, type: 3}
+  m_Sprite: {fileID: -6633209815904711992, guid: ac8bcc755c703d64189efc830b66253d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -993,8 +993,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::sound
   icons: {fileID: 1704148034}
-  soundOnIcon: {fileID: -6376882208575389763, guid: 50edac169e0fc2f498e77f3b185f18e8, type: 3}
-  soundOffIcon: {fileID: 518429351327777679, guid: 50edac169e0fc2f498e77f3b185f18e8, type: 3}
+  soundOnIcon: {fileID: -6633209815904711992, guid: ac8bcc755c703d64189efc830b66253d, type: 3}
+  soundOffIcon: {fileID: -2254108857772412204, guid: ac8bcc755c703d64189efc830b66253d, type: 3}
 --- !u!1 &1784910848
 GameObject:
   m_ObjectHideFlags: 0

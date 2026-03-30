@@ -662,7 +662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::loadingController
   loadingScreen: {fileID: 79868438}
   loadingText: {fileID: 1959925060}
-  minimumLoadingTime: 10
+  minimumLoadingTime: 2
 --- !u!1 &1408315298
 GameObject:
   m_ObjectHideFlags: 0
